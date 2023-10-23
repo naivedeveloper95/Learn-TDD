@@ -11,37 +11,51 @@ public class MovieStore {
 
     List<Movies> moviesList = new LinkedList<>();
 
-    public List<Movies> findByPartialTitle(String partialTitle) {
+    public List<Movies> findByPartialTitle(String partialTitle) throws Exception {
         List<Movies> list = new LinkedList<>();
-        for (Movies movies : moviesList) {
-            if (movies.title.toLowerCase().contains(partialTitle.toLowerCase())) {
-                list.add(movies);
+        return findBy(new Predicate() {
+            @Override
+            public boolean matches(Movies movie) {
+                return movie.title.toLowerCase().contains(partialTitle.toLowerCase());
             }
-        }
-        return list;
+        });
     }
 
     public void add(Movies movie) {
         moviesList.add(movie);
     }
 
-    public List<Movies> findByDirector(String director) {
+    public List<Movies> findByDirector(String director) throws Exception {
         List<Movies> list = new LinkedList<>();
-        for (Movies movies : moviesList) {
-            if (movies.director.toLowerCase().equals(director.toLowerCase())) {
-                list.add(movies);
+        return findBy(new Predicate() {
+            @Override
+            public boolean matches(Movies movie) {
+                return movie.director.toLowerCase().equals(director.toLowerCase());
             }
-        }
-        return list;
+        });
     }
 
-    public List<Movies> findByReleaseYear(int from, int to) {
+    public List<Movies> findByReleaseYear(int from, int to) throws Exception {
         List<Movies> list = new LinkedList<>();
-        for (Movies movies : moviesList) {
-            if (movies.releaseYear >= from && movies.releaseYear <= to) {
-                list.add(movies);
+        return findBy(new Predicate() {
+            @Override
+            public boolean matches(Movies movie) {
+                return movie.getReleaseYear() >= from && movie.getReleaseYear() <= to;
+            }
+        });
+    }
+
+    private List<Movies> findBy(Predicate predicate) {
+        List<Movies> result = new LinkedList<Movies>();
+        for (Movies movie : moviesList) {
+            if (predicate.matches(movie)) {
+                result.add(movie);
             }
         }
-        return list;
+        return result;
+    }
+
+    interface Predicate {
+        boolean matches(Movies movie);
     }
 }
