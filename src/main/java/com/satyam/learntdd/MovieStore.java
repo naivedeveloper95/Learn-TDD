@@ -13,7 +13,7 @@ public class MovieStore {
 
     public List<Movies> findByPartialTitle(String partialTitle) throws Exception {
         List<Movies> list = new LinkedList<>();
-        return findBy(movie -> movie.title.toLowerCase().contains(partialTitle.toLowerCase()));
+        return findBy(movie -> movie.getTitle().toLowerCase().contains(partialTitle.toLowerCase()));
     }
 
     public void add(Movies movie) {
@@ -22,7 +22,7 @@ public class MovieStore {
 
     public List<Movies> findByDirector(String director) throws Exception {
         List<Movies> list = new LinkedList<>();
-        return findBy(movie -> movie.director.toLowerCase().equals(director.toLowerCase()));
+        return findBy(movie -> movie.getDirector().toLowerCase().equals(director.toLowerCase()));
     }
 
     public List<Movies> findByReleaseYear(int from, int to) throws Exception {
