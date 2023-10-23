@@ -13,12 +13,8 @@ public class MovieStore {
 
     public List<Movies> findByPartialTitle(String partialTitle) throws Exception {
         List<Movies> list = new LinkedList<>();
-        return findBy(new Predicate() {
-            @Override
-            public boolean matches(Movies movie) {
-                return movie.title.toLowerCase().contains(partialTitle.toLowerCase());
-            }
-        });
+        Predicate predicate = movie -> movie.title.toLowerCase().contains(partialTitle.toLowerCase());
+        return findBy(predicate);
     }
 
     public void add(Movies movie) {
@@ -27,22 +23,14 @@ public class MovieStore {
 
     public List<Movies> findByDirector(String director) throws Exception {
         List<Movies> list = new LinkedList<>();
-        return findBy(new Predicate() {
-            @Override
-            public boolean matches(Movies movie) {
-                return movie.director.toLowerCase().equals(director.toLowerCase());
-            }
-        });
+        Predicate predicate = movie -> movie.director.toLowerCase().equals(director.toLowerCase());
+        return findBy(predicate);
     }
 
     public List<Movies> findByReleaseYear(int from, int to) throws Exception {
         List<Movies> list = new LinkedList<>();
-        return findBy(new Predicate() {
-            @Override
-            public boolean matches(Movies movie) {
-                return movie.getReleaseYear() >= from && movie.getReleaseYear() <= to;
-            }
-        });
+        Predicate predicate = movie -> movie.getReleaseYear() >= from && movie.getReleaseYear() <= to;
+        return findBy(predicate);
     }
 
     private List<Movies> findBy(Predicate predicate) {
